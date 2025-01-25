@@ -37,40 +37,36 @@ namespace EtLineFollow {
     let EventFarRightOn: EtCommon.eventHandler
     let EventFarRightOff: EtCommon.eventHandler
 
-    export function onEventFarLeft(id: string, value: string) {
-        if (value == "on") {
-            if (EventFarLeftOn) EventFarLeftOn(id)
-        }
-        else {
-            if (EventFarLeftOff) EventFarLeftOff(id)
-        }
+    export function onEventFarLeftOn(id: string, value: string) {
+        if (EventFarLeftOn) EventFarLeftOn(id)
     }
 
-    export function onEventLeft(id: string, value: string) {
-        if (value == "on") {
-            if (EventLeftOn) EventLeftOn(id)
-        }
-        else {
-            if (EventLeftOff) EventLeftOff(id)
-        }
+    export function onEventFarLeftOff(id: string, value: string) {
+        if (EventFarLeftOff) EventFarLeftOff(id)
     }
 
-    export function onEventRight(id: string, value: string) {
-        if (value == "on") {
-            if (EventRightOn) EventLeftOn(id)
-        }
-        else {
-            if (EventRightOff) EventRightOff(id)
-        }
+    export function onEventLeftOn(id: string, value: string) {
+        if (EventLeftOn) EventLeftOn(id)
     }
 
-    export function onEventFarRight(id: string, value: string) {
-        if (value == "on") {
-            if (EventFarRightOn) EventFarRightOn(id)
-        }
-        else {
-            if (EventFarRightOff) EventFarRightOff(id)
-        }
+    export function onEventLeftOff(id: string, value: string) {
+        if (EventLeftOff) EventLeftOff(id)
+    }
+
+    export function onEventRightOn(id: string, value: string) {
+        if (EventRightOn) EventLeftOn(id)
+    }
+
+    export function onEventRightOff(id: string, value: string) {
+        if (EventRightOff) EventRightOff(id)
+    }
+
+    export function onEventFarRightOn(id: string, value: string) {
+        if (EventFarRightOn) EventFarRightOn(id)
+    }
+
+    export function onEventFarRightOff(id: string, value: string) {
+        if (EventFarRightOff) EventFarRightOff(id)
     }
 
     //% block="ID"
@@ -93,19 +89,19 @@ namespace EtLineFollow {
         switch (sensor) {
             case Sensor.FarLeft:
                 EventFarLeftOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventFarLeft)
+                EtCommon.events.register(MODULE, "FLoff", onEventFarLeftOff)
                 break
             case Sensor.Left:
                 EventLeftOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventLeft)
+                EtCommon.events.register(MODULE, "MLoff", onEventLeftOff)
                 break
             case Sensor.Right:
                 EventRightOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventRight)
+                EtCommon.events.register(MODULE, "MRoff", onEventRightOff)
                 break
             case Sensor.FarRight:
                 EventFarRightOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventFarRight)
+                EtCommon.events.register(MODULE, "FRoff", onEventFarRightOff)
                 break
         }
     }
@@ -117,19 +113,19 @@ namespace EtLineFollow {
         switch (sensor) {
             case Sensor.FarLeft:
                 EventFarLeftOn = programmableCode
-                EtCommon.events.register(MODULE, "on", onEventFarLeft)
+                EtCommon.events.register(MODULE, "FLon", onEventFarLeftOn)
                 break
             case Sensor.Left:
                 EventLeftOn = programmableCode
-                EtCommon.events.register(MODULE, "on", onEventLeft)
+                EtCommon.events.register(MODULE, "MLon", onEventLeftOn)
                 break
             case Sensor.Right:
                 EventRightOn = programmableCode
-                EtCommon.events.register(MODULE, "on", onEventRight)
+                EtCommon.events.register(MODULE, "MRon", onEventRightOn)
                 break
             case Sensor.FarRight:
                 EventFarRightOn = programmableCode
-                EtCommon.events.register(MODULE, "on", onEventFarRight)
+                EtCommon.events.register(MODULE, "FRon", onEventFarRightOn)
                 break
         }
     }
@@ -138,7 +134,7 @@ namespace EtLineFollow {
     //% block.loc.nl="rijd met %id over %mode"
     //% id.defl="EtLineFollow"
     export function setMode(id: string, mode: Mode) {
-        let sig = (mode == Mode.BonW ? "bonw" : "wonb")
+        let sig = (mode == Mode.BonW ? "BonW" : "WonB")
         EtCommon.sendSignal(id, sig, "")
     }
 }
