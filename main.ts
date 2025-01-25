@@ -54,7 +54,7 @@ namespace EtLineFollow {
     }
 
     export function onEventRightOn(id: string, value: string) {
-        if (EventRightOn) EventLeftOn(id)
+        if (EventRightOn) EventRightOn(id)
     }
 
     export function onEventRightOff(id: string, value: string) {
