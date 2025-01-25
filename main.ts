@@ -1,4 +1,4 @@
-//% color="#EEAA00" icon="\uf140"
+//% color="#EEAA00" icon="\uf018"
 //% block="ET: Line follower"
 //% block.loc.nl="ET: Lijn volger"
 namespace EtLineFollow {
@@ -6,25 +6,25 @@ namespace EtLineFollow {
 
     export enum Mode {
         //% block="a dark line on a light surface"
-        //% block.loc.nl="een donkere lijn op een lichte ondergrond"
+        //% block.loc.nl="een donkere lijn met een lichte ondergrond"
         BonW,
         //% block="a light line on a dark surface"
-        //% block.loc.nl="een lichte lijn op een donkere ondergrond"
+        //% block.loc.nl="een lichte lijn met een donkere ondergrond"
         WonB
     }
 
     export enum Sensor {
         //% block="far left"
-        //% block.loc.nl="uiterst links"
+        //% block.loc.nl="meest linkse"
         FarLeft,
         //% block="left"
-        //% block.loc.nl="links"
+        //% block.loc.nl="linker"
         Left,
         //% block="right"
-        //% block.loc.nl="rechts"
+        //% block.loc.nl="rechter"
         Right,
         //% block="far right"
-        //% block.loc.nl="uiterst rechts"
+        //% block.loc.nl="meest rechtse"
         FarRight
     }
 
@@ -86,12 +86,28 @@ namespace EtLineFollow {
         MODULE = id
     }
 
-    //% block="with %id ride on %mode"
-    //% block.loc.nl="met %id rijd op %mode"
+    //% block="when the %sensor sensor of %id leaves the line"
+    //% block.loc.nl="wanneer de %sensor sensor van %id van de lijn gaat"
     //% id.defl="EtLineFollow"
-    export function setMode(id: string, mode: Mode) {
-        let sig = (mode == Mode.BonW ? "bonw" : "wonb")
-        EtCommon.sendSignal(id, sig, "")
+    export function onNoHover(sensor: Sensor, id: string, programmableCode: () => void): void {
+        switch (sensor) {
+            case Sensor.FarLeft:
+                EventFarLeftOn = programmableCode
+                EtCommon.events.register(MODULE, "off", onEventFarLeft)
+                break
+            case Sensor.Left:
+                EventLeftOn = programmableCode
+                EtCommon.events.register(MODULE, "off", onEventLeft)
+                break
+            case Sensor.Right:
+                EventRightOn = programmableCode
+                EtCommon.events.register(MODULE, "off", onEventRight)
+                break
+            case Sensor.FarRight:
+                EventFarRightOn = programmableCode
+                EtCommon.events.register(MODULE, "off", onEventFarRight)
+                break
+        }
     }
 
     //% block="when the %sensor sensor of %id hovers the line"
@@ -118,27 +134,11 @@ namespace EtLineFollow {
         }
     }
 
-    //% block="when the %sensor sensor of %id leaves the line"
-    //% block.loc.nl="wanneer de %sensor sensor van %id van de lijn gaat"
+    //% block="with %id ride on %mode"
+    //% block.loc.nl="rijd met %id over %mode"
     //% id.defl="EtLineFollow"
-    export function onNoHover(sensor: Sensor, id: string, programmableCode: () => void): void {
-        switch (sensor) {
-            case Sensor.FarLeft:
-                EventFarLeftOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventFarLeft)
-                break
-            case Sensor.Left:
-                EventLeftOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventLeft)
-                break
-            case Sensor.Right:
-                EventRightOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventRight)
-                break
-            case Sensor.FarRight:
-                EventFarRightOn = programmableCode
-                EtCommon.events.register(MODULE, "off", onEventFarRight)
-                break
-        }
+    export function setMode(id: string, mode: Mode) {
+        let sig = (mode == Mode.BonW ? "bonw" : "wonb")
+        EtCommon.sendSignal(id, sig, "")
     }
 }
