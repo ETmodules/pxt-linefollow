@@ -88,19 +88,19 @@ namespace EtLineFollow {
     export function onNoHover(sensor: Sensor, id: string, programmableCode: () => void): void {
         switch (sensor) {
             case Sensor.FarLeft:
-                EventFarLeftOn = programmableCode
+                EventFarLeftOff = programmableCode
                 EtCommon.events.register(MODULE, "FLoff", onEventFarLeftOff)
                 break
             case Sensor.Left:
-                EventLeftOn = programmableCode
+                EventLeftOff = programmableCode
                 EtCommon.events.register(MODULE, "MLoff", onEventLeftOff)
                 break
             case Sensor.Right:
-                EventRightOn = programmableCode
+                EventRightOff = programmableCode
                 EtCommon.events.register(MODULE, "MRoff", onEventRightOff)
                 break
             case Sensor.FarRight:
-                EventFarRightOn = programmableCode
+                EventFarRightOff = programmableCode
                 EtCommon.events.register(MODULE, "FRoff", onEventFarRightOff)
                 break
         }
